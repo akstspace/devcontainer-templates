@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# This function wraps execution of tests and標記the success/failure
+# This function wraps execution of tests and marks the success/failure
 check() {
     LABEL=$1
     shift

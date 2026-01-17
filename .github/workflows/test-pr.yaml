@@ -29,20 +29,31 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Build and test '${{ matrix.templates }}'
+      - name: Smoke test for '${{ matrix.templates }}'
         run: |
+          set -e
           echo "Testing template: ${{ matrix.templates }}"
           
-          # Use the devcontainer CLI to build the template
+          # Install the devcontainer CLI
           npm install -g @devcontainers/cli
           
-          # Create a temporary test directory
+          # Create a temporary test workspace
           TEST_DIR=$(mktemp -d)
+          echo "Test directory: $TEST_DIR"
+          
+          # Copy the devcontainer configuration
           cp -r ./src/${{ matrix.templates }}/.devcontainer $TEST_DIR/
           
-          # Build the container
-          devcontainer build --workspace-folder $TEST_DIR
+          # Copy test script into the workspace
+          mkdir -p $TEST_DIR/test-utils
+          cp ./test/test-utils/test-utils.sh $TEST_DIR/test-utils/
+          cp ./test/${{ matrix.templates }}/test.sh $TEST_DIR/
+          
+          # Build and start the dev container
+          cd $TEST_DIR
+          devcontainer up --workspace-folder .
           
           # Run the test script inside the container
-          devcontainer up --workspace-folder $TEST_DIR
-          devcontainer exec --workspace-folder $TEST_DIR bash -c "cd /workspaces && bash -c '$(cat ./test/${{ matrix.templates }}/test.sh)'"
+          devcontainer exec --workspace-folder . bash /workspaces/$(basename $TEST_DIR)/test.sh
+          
+          echo "✅ Tests passed for ${{ matrix.templates }}"
