@@ -1,0 +1,48 @@
+name: "CI - Test Templates"
+on:
+  pull_request:
+    paths:
+      - 'src/**'
+      - 'test/**'
+      - '.github/workflows/**'
+
+jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      templates: ${{ steps.filter.outputs.changes }}
+    steps:
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            nodejs: ./**/nodejs/**
+            python: ./**/python/**
+
+  test:
+    needs: [detect-changes]
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    strategy:
+      matrix:
+        templates: ${{ fromJSON(needs.detect-changes.outputs.templates) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build and test '${{ matrix.templates }}'
+        run: |
+          echo "Testing template: ${{ matrix.templates }}"
+          
+          # Use the devcontainer CLI to build the template
+          npm install -g @devcontainers/cli
+          
+          # Create a temporary test directory
+          TEST_DIR=$(mktemp -d)
+          cp -r ./src/${{ matrix.templates }}/.devcontainer $TEST_DIR/
+          
+          # Build the container
+          devcontainer build --workspace-folder $TEST_DIR
+          
+          # Run the test script inside the container
+          devcontainer up --workspace-folder $TEST_DIR
+          devcontainer exec --workspace-folder $TEST_DIR bash -c "cd /workspaces && bash -c '$(cat ./test/${{ matrix.templates }}/test.sh)'"

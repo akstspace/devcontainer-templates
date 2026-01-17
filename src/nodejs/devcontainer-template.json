@@ -1,0 +1,28 @@
+{
+    "id": "nodejs",
+    "version": "1.0.0",
+    "name": "Node.js",
+    "description": "A Node.js development container with common tools and extensions",
+    "documentationURL": "https://github.com/akstspace/devcontainer-templates/tree/main/src/nodejs",
+    "licenseURL": "https://github.com/akstspace/devcontainer-templates/blob/main/LICENSE",
+    "options": {
+        "nodeVersion": {
+            "type": "string",
+            "description": "Select the Node.js version to use",
+            "proposals": [
+                "20",
+                "18",
+                "16"
+            ],
+            "default": "20"
+        },
+        "installPnpm": {
+            "type": "boolean",
+            "description": "Install pnpm package manager",
+            "default": false
+        }
+    },
+    "platforms": [
+        "Any"
+    ]
+}
