@@ -5,11 +5,19 @@ check() {
     LABEL=$1
     shift
     echo -e "\n🧪 Testing: $LABEL"
-    if "$@"; then 
+    
+    # Capture both stdout and stderr
+    OUTPUT=$(mktemp)
+    if "$@" > "$OUTPUT" 2>&1; then 
         echo "✅ Passed!"
+        cat "$OUTPUT"
+        rm -f "$OUTPUT"
         return 0
     else
         echo "❌ Failed: $LABEL"
+        echo "Error output:"
+        cat "$OUTPUT"
+        rm -f "$OUTPUT"
         FAILED+=("$LABEL")
         return 1
     fi

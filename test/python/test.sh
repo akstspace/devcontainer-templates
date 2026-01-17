@@ -1,6 +1,6 @@
 #!/bin/bash
-cd $(dirname "$0")
-source ../test-utils/test-utils.sh
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+source "${SCRIPT_DIR}/../test-utils/test-utils.sh"
 
 # Template specific tests
 check "python-exists" which python

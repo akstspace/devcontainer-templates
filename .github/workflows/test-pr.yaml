@@ -44,16 +44,19 @@ jobs:
           # Copy the devcontainer configuration
           cp -r ./src/${{ matrix.templates }}/.devcontainer $TEST_DIR/
           
-          # Copy test script into the workspace
-          mkdir -p $TEST_DIR/test-utils
-          cp ./test/test-utils/test-utils.sh $TEST_DIR/test-utils/
-          cp ./test/${{ matrix.templates }}/test.sh $TEST_DIR/
+          # Set up test directory structure
+          mkdir -p $TEST_DIR/test/test-utils
+          mkdir -p $TEST_DIR/test/${{ matrix.templates }}
+          
+          # Copy test scripts maintaining directory structure
+          cp ./test/test-utils/test-utils.sh $TEST_DIR/test/test-utils/
+          cp ./test/${{ matrix.templates }}/test.sh $TEST_DIR/test/${{ matrix.templates }}/
           
           # Build and start the dev container
           cd $TEST_DIR
           devcontainer up --workspace-folder .
           
           # Run the test script inside the container
-          devcontainer exec --workspace-folder . bash /workspaces/$(basename $TEST_DIR)/test.sh
+          devcontainer exec --workspace-folder . bash /workspaces/$(basename $TEST_DIR)/test/${{ matrix.templates }}/test.sh
           
           echo "✅ Tests passed for ${{ matrix.templates }}"
