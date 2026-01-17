@@ -2,7 +2,7 @@
 
 Starter files for dev container templates.
 
-## Available Template
+## Available Templates
 
 ### Node.js & PostgreSQL
 Node.js development environment with PostgreSQL database.
@@ -13,17 +13,23 @@ Node.js development environment with PostgreSQL database.
 
 ## Usage
 
-Copy the `.devcontainer` folder from `src/node-postgres/` to your project root and customize as needed.
+Copy the `.devcontainer` folder from `src/<template-name>/` to your project root and customize as needed.
+
+For example, to use the Node.js & PostgreSQL template:
+```bash
+cp -r src/node-postgres/.devcontainer /path/to/your/project/
+```
 
 ## Structure
 
+Each template follows this structure:
 ```
-src/node-postgres/
+src/<template-name>/
 ├── devcontainer-template.json
 └── .devcontainer/
     ├── devcontainer.json
-    ├── docker-compose.yml
-    └── Dockerfile
+    ├── docker-compose.yml (optional)
+    └── Dockerfile (optional)
 ```
 
 ## License
