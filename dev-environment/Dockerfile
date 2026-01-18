@@ -19,6 +19,7 @@ RUN apt-get update && apt-get install -y \
     cargo \
     gcc \
     g++ \
+    build-essential \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
