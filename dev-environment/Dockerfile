@@ -35,9 +35,6 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Install powerlevel10k theme
-RUN git clone --depth=1 https://github.com/romkatv/powerlevel10k.git /opt/powerlevel10k
-
 # Install volta
 RUN curl https://get.volta.sh | bash
 
