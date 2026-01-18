@@ -8,7 +8,16 @@ fi
 # Set theme
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
-# Plugins
+
+# Volta
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"
+
+# Pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
 plugins=(
   git
   docker
@@ -32,15 +41,5 @@ plugins=(
 )
 
 source $ZSH/oh-my-zsh.sh
-
-# Volta
-export VOLTA_HOME="$HOME/.volta"
-export PATH="$VOLTA_HOME/bin:$PATH"
-
-# Pyenv
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
