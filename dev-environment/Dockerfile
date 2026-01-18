@@ -20,8 +20,29 @@ RUN apt-get update && apt-get install -y \
     gcc \
     g++ \
     build-essential \
+    libssl-dev \
+    zlib1g-dev \
+    libbz2-dev \
+    libreadline-dev \
+    libsqlite3-dev \
+    libncursesw5-dev \
+    xz-utils \
+    tk-dev \
+    libxml2-dev \
+    libxmlsec1-dev \
+    libffi-dev \
+    liblzma-dev \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
+
+# Install powerlevel10k theme
+RUN git clone --depth=1 https://github.com/romkatv/powerlevel10k.git /opt/powerlevel10k
+
+# Install volta
+RUN curl https://get.volta.sh | bash
+
+# Install pyenv
+RUN curl https://pyenv.run | bash
 
 # Set the working directory
 WORKDIR /workspace
