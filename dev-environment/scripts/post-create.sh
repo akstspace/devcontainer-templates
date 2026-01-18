@@ -12,5 +12,6 @@ curl https://pyenv.run | bash
 
 # Copy dotfiles
 cp .devcontainer/dotfiles/.zshrc ~
+cp .devcontainer/dotfiles/.p10k.zsh ~
 
 echo "✓ Post-create setup complete!"
